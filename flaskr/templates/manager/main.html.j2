@@ -1,0 +1,94 @@
+{% extends "base.html.j2" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+    <style>
+        .navbar {
+            background-color: var(--secondary);
+            display: flex;
+            justify-content: space-around;
+            padding: 30px;
+            z-index: 20;
+        }
+
+        .navbar a {
+            color: var(--text);
+            
+            text-decoration: none;
+        }
+
+        .vertical-navbar {
+            background-color: var(--secondary);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 60px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            z-index: 30;
+        }
+
+        .vertical-navbar a {
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            /* gap: 10px; */
+            padding: 10px;
+            margin-left: 250px;
+            margin-top: 50px;
+        }
+
+        .grid-item {
+            background-color: #ddd;
+            padding: 20px;
+            text-align: center;
+        }
+        .logo {
+            position: absolute;
+             /* Adjust the width as needed */
+            height: 100px; /* Adjust the height as needed */
+            margin-top: -15px;/* Adjust the margin as needed */
+            margin-left: 10px; /* Adjust the margin as needed */
+            z-index: 40;
+        }
+        .profile {
+            position: absolute;
+            float:right;
+             /* Adjust the width as needed */
+            height: 40px; /* Adjust the height as needed */
+            right: 20px;
+            top: 20px;
+            z-index: 40;
+        }
+    </style>
+    <img class="logo" src="{{ url_for('static',filename='images/placeholder-logo.png') }}" alt="Logo">
+    <img class="profile" src="{{ url_for('static',filename='images/profile-icon.png') }}">
+    <nav class="navbar">
+        <a href="#">Link 1</a>
+        <a href="#">Link 2</a>
+        <a href="#">Link 3</a>
+    </nav>
+    
+    <nav class="vertical-navbar">
+        <a href="#">Link 1</a>
+        <a href="#">Link 2</a>
+        <a href="#">Link 3</a>
+    </nav>
+    <div class="grid-container">
+    {% for password in g.passwords %}
+        <div class="grid-item">{{ loop.index }}</div>
+        <div class="grid-item">{{ password[0] }}</div>
+        <div class="grid-item">{{ password[1] }}</div>
+        <div class="grid-item">{{ password[2] }}</div>
+    {% endfor %}
+
+    </div>
+
+    <div style="margin-top: 1000px;">dsaf</div>
+
+{% endblock %}

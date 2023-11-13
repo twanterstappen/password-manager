@@ -39,5 +39,5 @@ def logout():
     if 'loggedin' not in session:
         return redirect(url_for('view.home'))
     
-    session.clear()
+    session.pop('loggedin')
     return 'Hello World'
