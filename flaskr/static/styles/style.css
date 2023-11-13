@@ -1,0 +1,16 @@
+:root {
+    --first-color: #ffff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color:azure;
+    font-family: Arial, sans-serif;
+}
