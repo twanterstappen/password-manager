@@ -52,10 +52,11 @@ def register():
 @bp.route('/totp', methods=('GET', 'POST'))
 def totp():
     email = session.get('email')
+    
     if request.method == 'POST':
         totp_secret = request.form.get('totp_secret')
         code = request.form.get('code')
-        print(totp_secret, code)
+
         totp = pyotp.TOTP(totp_secret)
         if totp.verify(code):
             
@@ -74,10 +75,10 @@ def totp():
     else:
         secret = pyotp.random_base32()
         g.totp_secret = secret
-        print(email)
+
         g.totp_uri = f'otpauth://totp/2fa-pm:{email}?secret={secret}&issuer=2fa-pm'
         "otpauth://totp/Example:alice@google.com?secret=JBSWY3DPEHPK3PXP&issuer=Example"
-    flash('TOTP code was not correct, try again!', 'error')
+
     return render_template('auth/totp.html.j2')
 
 @bp.route('/totp-verify', methods=('POST',))
@@ -103,27 +104,32 @@ def login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password').encode('utf-8')
+        totp_code = request.form.get('totp').encode('utf-8')
         
-        if not email or not password:
-            flash('Please fill in the required fields!', 'error')
+        if not email or not password or not totp_code:
+            flash('Please fill all the fields in!', 'error')
             return render_template('auth/login.html.j2')
         
         cursor = db.connection.cursor()
-        cursor.execute("SELECT username, email, main_password_hash FROM user WHERE email = %s;", (email,))
+        cursor.execute("SELECT username, email, main_password_hash, totp_secret FROM user WHERE email = %s;", (email,))
         entry = cursor.fetchone()
-        username, email_db, main_password_hash = entry
+        username, email_db, main_password_hash, totp_secret = entry
         cursor.close
         
         if entry and bcrypt.checkpw(password, main_password_hash.encode('utf-8')):
-            session.permanent = True
-            session['loggedin'] = True
-            session['username'] = username
-            session['email'] = email_db
-            session['main_password'] = password.decode('utf-8')
-            
-            flash(f"Welcome { entry[0] }, you succussfully logged in!", "success")
-            
-            return redirect(url_for('view.home'))
+            totp = pyotp.TOTP(totp_secret)
+            if totp.verify(int(totp_code)):
+                session.permanent = True
+                session['loggedin'] = True
+                session['username'] = username
+                session['email'] = email_db
+                session['main_password'] = password.decode('utf-8')
+                
+                flash(f"Welcome { entry[0] }, you succussfully logged in!", "success")
+                
+                return redirect(url_for('view.home'))
+            else:
+                flash('TOTP code was not correct, try again!', 'error')
         else:
             flash('Combination of email and password wrong', 'error')
    
