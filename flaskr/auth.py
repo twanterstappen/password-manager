@@ -10,11 +10,12 @@ def register():
         return redirect(url_for('view.home'))
     
     if request.method == 'POST':
-        token = request.form['token']
-        username = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-        c_password = request.form['c-password']
+        token = request.form.get('token')
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        c_password = request.form.get('c-password')
+
         
         if password != c_password:
             flash(f"Password not matching", "error")
@@ -54,8 +55,8 @@ def login():
         return redirect(url_for('view.home'))
     
     if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password'].encode('utf-8')
+        email = request.form.get('email')
+        password = request.form.get('password').encode('utf-8')
         
         if not email or not password:
             flash('Please fill in the required fields!', 'error')
@@ -72,9 +73,7 @@ def login():
             session['loggedin'] = True
             session['username'] = username
             session['email'] = email_db
-            session['password'] = password.decode('utf-8')
-
-            
+            session['main_password'] = password.decode('utf-8')
             
             flash(f"Welcome { entry[0] }, you succussfully logged in!", "success")
             
