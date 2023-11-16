@@ -11,10 +11,11 @@
         .container {
           width: 300px;
           padding: 16px;
-          background-color: var(--secondary);
           margin: 0 auto;
           margin-top: 110px;
-          border-radius: 4px;
+          border-radius: 20px;
+          border-color: black;
+          border-style: solid;
         }
 
         .login-form {
@@ -32,27 +33,9 @@
           border: 1px solid rgb(0, 0, 0);
           border-radius: 4px;
         }
-
         .login-form button {
-          cursor: pointer;
-          background-color: var(--primary);
-          border: none;
-          color: rgb(0, 0, 0);
           padding: 10px 20px;
-          text-align: center;
-          text-decoration: none;
-          display: inline-block;
-          font-size: 16px;
-          margin: 4px 2px;
-          transition-duration: 0.4s;
-          border-radius: 4px;
-          border: 1px solid black;
         }
-
-        .login-form button:hover {
-          background-color: var(--accent);
-        }
-
         .options {
           margin-top: 0px;
           text-align: right;
@@ -60,12 +43,12 @@
         }
 
         .options a {
-          color: rgb(36, 36, 36);
+          color: rgb(0, 0, 0);
         
         }
 
         .options a:hover {
-          color: var(--accent);
+          color: rgb(121, 121, 121);
         }
 
         .or{
@@ -81,21 +64,21 @@
           color: black;
         }
         .register a:hover {
-          color: var(--accent);
+          color: rgb(121, 121, 121);
         }
     </style>
     
-     <div class="container">
+     <div class="container bg-light">
         <h1 class="title">Login</h1>
         <br><br><br>
         <form class="login-form" method="post">
-          <label for="email">Email:</label>
+          <label for="email"><b>Email:</b></label>
           <input type="email" id="email" name="email" placeholder="email@example.com" required>
           
-          <label for="password">Password:</label>
+          <label for="password"><b>Password:</b></label>
           <input type="password" id="password" name="password" placeholder="password" required>
           
-          <button type="submit">Login</button>
+          <button class="btn btn-dark " type="submit">Login</button>
         </form>
     
         <div class="options">

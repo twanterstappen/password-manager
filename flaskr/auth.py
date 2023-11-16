@@ -43,7 +43,7 @@ def register():
         cursor.close
         
         
-        flash(f"Welcome, you succussfully registerd, please login with your credentials!", "success")
+        flash(f"You succussfully registerd, please login with your credentials!", "success")
         return redirect(url_for('auth.login'))
     
     return render_template('auth/register.html.j2')

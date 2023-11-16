@@ -1,5 +1,5 @@
 {% extends "base.html.j2" %}
-{% block title %}Register{% endblock %}
+{% block title %}Login{% endblock %}
 {% block content %}
 
     <style>
@@ -11,46 +11,44 @@
         .container {
           width: 300px;
           padding: 16px;
-          background-color: var(--secondary);
           margin: 0 auto;
           margin-top: 110px;
-          border-radius: 4px;
+          border-radius: 20px;
+          border-color: black;
+          border-style: solid;
         }
 
-        .register-form {
+        .login-form {
           display: flex;
           flex-direction: column;
         }
 
-        .register-form label {
+        .login-form label {
           margin-bottom: 5px;
         }
 
-        .register-form input {
+        .login-form input {
           margin-bottom: 15px;
           padding: 8px;
-          border: 1px solid black;
+          border: 1px solid rgb(0, 0, 0);
           border-radius: 4px;
         }
-
-        .register-form button {
-          cursor: pointer;
-          background-color: var(--primary);
-          border: none;
-          color: rgb(0, 0, 0);
+        .login-form button {
           padding: 10px 20px;
-          text-align: center;
-          text-decoration: none;
-          display: inline-block;
-          font-size: 16px;
-          margin: 4px 2px;
-          transition-duration: 0.4s;
-          border-radius: 4px;
-          border: 1px solid black;
+        }
+        .options {
+          margin-top: 0px;
+          text-align: right;
+          font-size:smaller;
         }
 
-        .register-form button:hover {
-          background-color: var(--accent);
+        .options a {
+          color: rgb(0, 0, 0);
+        
+        }
+
+        .options a:hover {
+          color: rgb(121, 121, 121);
         }
 
         .or{
@@ -58,42 +56,42 @@
           margin-top: 35px;
         }
 
-        .login{
+        .register{
           text-align: center;
           margin-top: 50px;
         }
-        .login a{
+        .register a{
           color: black;
         }
-        .login a:hover {
-          color: var(--accent);
+        .register a:hover {
+          color: rgb(121, 121, 121);
         }
     </style>
     
-     <div class="container">
+     <div class="container bg-light">
         <h1 class="title">Register</h1>
         <br><br><br>
-        <form class="register-form" method="post">
-          <label for="token">Register-token:</label>
+        <form class="login-form" method="post">
+          <label for="token"><b>Register-token:</b></label>
           <input type="token" id="token" name="token" placeholder="token" required>
 
-          <label for="username">Username:</label>
+          <label for="username"><b>Username:</b></label>
           <input type="username" id="username" name="username" placeholder="username" required>
 
-          <label for="email">Email:</label>
+          <label for="email"><b>Email:</b></label>
           <input type="email" id="email" name="email" placeholder="email@example.com" required>
           
-          <label for="password">Password:</label>
+          <label for="password"><b>Password:</b></label>
           <input type="password" id="password" name="password" placeholder="password" required>
 
-          <label for="c-password">Confirm password:</label>
+          <label for="c-password"><b>Confirm password:</b></label>
           <input type="password" id="c-password" name="c-password" placeholder="password" required>
           
-          <button type="submit">Register</button>
+          <button class="btn btn-dark " type="submit">Register</button>
         </form>
         <div class="or">or</div>
-        <div class="login">
-          <a href="/login">login here!</a>
+        <div class="register">
+          <a href="/login">Login Here!</a>
         </div>
      </div>
 {% endblock %}
