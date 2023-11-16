@@ -1,0 +1,63 @@
+{% extends "base.html.j2" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+
+<style>
+    .flash {
+        margin-top: -40px !important;
+        z-index: 40;
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center" style="margin-top: 50px;">
+        <div class="col-lg-12">
+            <div class="jumbotron text-center p-4">
+                <h1>Setup TOTP code</h1>
+                <h4>Scan the QR code with your authenticator app</h4>
+                <p><i>Recommended google or microsoft authenticator</i></p>
+            </div>
+            <div style="display: flex; justify-content: center; margin-top:-30px">
+            
+                <img src="{{ qrcode(g.totp_uri, box_size=6) }}">
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <form>
+                <div>
+                    <div style="display: flex; justify-content: center; margin-top:40px">
+                        <h2><b>or</b></h2>
+                    </div>
+
+                    <h5>Instructions!</h5>
+                    <ul>
+                        <li>Download <a
+                                href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en&gl=US"
+                                target="_blank">Google Authenticator</a> on your mobile.</li>
+                        <li>Create a new account with <strong>setup key</strong> method.</li>
+                        <li>Provide the required details (name, secret key).</li>
+                        <li>Select time-based authentication.</li>
+                        <li>Submit the generated key in the form.</li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <label for="secret"><b>Secret Token:</b></label>
+                    <input type="text" class="form-control" id="secret" value="{{ g.totp_secret }}" readonly>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-5" style="margin-top: 253px;">
+            <form method="POST" autocomplete="off">
+                <div class="form-group">
+                    <label for="code"><b>Generated OTP</b></label>
+                    <input type="hidden" name="totp_secret" value="{{ g.totp_secret }}" required>
+                    <input type="code" class="form-control" id="code" name="code" required>
+                </div>
+                <div class="text-center" style="margin-top: 10px;">
+                    <button type="submit" class="btn btn-primary">Validate TOTP code</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

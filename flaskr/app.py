@@ -4,12 +4,13 @@ import os
 import secrets
 import datetime
 from Crypto.Cipher import AES
-
+from flask_qrcode import QRcode
 
 # TODO: https://www.youtube.com/watch?v=lvKjQhQ8Fwk&ab_channel=PrettyPrinted
 # Save sessions in a safe way
 
 db = MySQL()
+qrcode = QRcode()
 
 def password_padding(key, target_key_length):
     while len(key) <  target_key_length:
@@ -63,6 +64,7 @@ def main():
     app.config['MYSQL_DB'] = 'password_manager'
     
     db.init_app(app)
+    qrcode.init_app(app)
 
     app.register_blueprint(view.bp)
     app.register_blueprint(auth.bp)

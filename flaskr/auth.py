@@ -1,6 +1,8 @@
 from flask import render_template, redirect, url_for, flash, Blueprint, request, g, session, abort, app
 import bcrypt
-from app import db
+from app import db, qrcode
+import pyotp
+
 
 bp = Blueprint('auth', __name__)
 
@@ -24,8 +26,6 @@ def register():
             flash('Please fill all the fields in!', 'error')
             return render_template('auth/register.html.j2')
         
-        
-        
         cursor = db.connection.cursor()
         cursor.execute("SELECT email FROM user where email = %s;", (email,))
         entry = cursor.fetchone()
@@ -41,13 +41,60 @@ def register():
         db.connection.commit()
         cursor.close
         
-        
+        session['email'] = email
         flash(f"You succussfully registerd, please login with your credentials!", "success")
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('auth.totp'))
     
     return render_template('auth/register.html.j2')
 
 
+
+@bp.route('/totp', methods=('GET', 'POST'))
+def totp():
+    email = session.get('email')
+    if request.method == 'POST':
+        totp_secret = request.form.get('totp_secret')
+        code = request.form.get('code')
+        print(totp_secret, code)
+        totp = pyotp.TOTP(totp_secret)
+        if totp.verify(code):
+            
+            
+            cursor = db.connection.cursor()
+            cursor.execute("UPDATE user SET totp_secret = %s WHERE email = %s", (totp_secret, email))
+            db.connection.commit()
+            cursor.close
+            
+            session.clear()
+            flash('TOTP code was correct, please login first', 'success')
+            return redirect(url_for('auth.login'))
+        else:
+            flash('TOTP code was not correct, try again!', 'error')
+            return render_template('auth/totp.html.j2')
+    else:
+        secret = pyotp.random_base32()
+        g.totp_secret = secret
+        print(email)
+        g.totp_uri = f'otpauth://totp/2fa-pm:{email}?secret={secret}&issuer=2fa-pm'
+        "otpauth://totp/Example:alice@google.com?secret=JBSWY3DPEHPK3PXP&issuer=Example"
+    flash('TOTP code was not correct, try again!', 'error')
+    return render_template('auth/totp.html.j2')
+
+@bp.route('/totp-verify', methods=('POST',))
+def totpverify():
+
+    return redirect(url_for('auth.login'))
+
+
+
+
+
+
+
+
+
+
+# TODO: Add TOTP verification to login
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if 'loggedin' in session:
@@ -93,7 +140,5 @@ def logout():
     if 'loggedin' not in session:
         return redirect(url_for('view.home'))
     
-    session.pop('loggedin')
-    session.pop('username')
-    session.pop('email')
+    session.clear()
     return redirect(url_for('auth.login'))
