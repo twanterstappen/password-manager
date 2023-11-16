@@ -10,7 +10,6 @@ def register():
         return redirect(url_for('view.home'))
     
     if request.method == 'POST':
-        token = request.form.get('token')
         username = request.form.get('username')
         email = request.form.get('email')
         password = request.form.get('password')
@@ -21,7 +20,7 @@ def register():
             flash(f"Password not matching", "error")
             return render_template('auth/register.html.j2')
         
-        if not token or not username or not email or not password or not c_password:
+        if not username or not email or not password or not c_password:
             flash('Please fill all the fields in!', 'error')
             return render_template('auth/register.html.j2')
         

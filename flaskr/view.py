@@ -36,21 +36,9 @@ def home():
     return render_template('manager/main.html.j2')
 
 
-@bp.route('/profile', methods=('GET',))
-def profile():
-    if 'loggedin' not in session:
-        return redirect(url_for('auth.login'))
-    
-    
-    cursor = db.connection.cursor()
-    query = "select * from password;"
-    cursor.execute(query,)
-    entry = cursor.fetchone()
-    
-    return f'{entry}'
 
-@bp.route('/add-password', methods=('GET', 'POST'))
-def addpassword():
+@bp.route('/add-credentials', methods=('GET', 'POST'))
+def addcredentials():
     if 'loggedin' not in session:
         return redirect(url_for('auth.login'))
     
@@ -113,8 +101,8 @@ def addpassword():
     
     
     
-@bp.route('/delete-password', methods=('post',))
-def deletepassword():
+@bp.route('/delete-credentials', methods=('POST',))
+def deletecredentials():
     if 'loggedin' not in session:
         return redirect(url_for('auth.login'))
     
@@ -132,3 +120,18 @@ def deletepassword():
         cursor.close
     
     return redirect(url_for('view.home'))
+
+# Maybe add later
+# @bp.route('/profile', methods=('GET',))
+# def profile():
+#     if 'loggedin' not in session:
+#         return redirect(url_for('auth.login'))
+    
+#     email = session.get('email')
+    
+#     cursor = db.connection.cursor()
+#     cursor.execute("SELECT username, email, password FROM user WHERE email = %s;", (email,))
+#     user_id = cursor.fetchone()
+#     cursor.close
+    
+#     return ''
