@@ -5,12 +5,15 @@ import secrets
 import datetime
 from Crypto.Cipher import AES
 from flask_qrcode import QRcode
+from flask_session import Session
 
 # TODO: https://www.youtube.com/watch?v=lvKjQhQ8Fwk&ab_channel=PrettyPrinted
 # Save sessions in a safe way
 
 db = MySQL()
 qrcode = QRcode()
+sess = Session()
+
 
 def password_padding(key, target_key_length):
     while len(key) <  target_key_length:
@@ -52,19 +55,23 @@ def main():
     app = Flask(__name__, instance_relative_config=True)
     import view, auth
     # app.secret_key = secrets.token_urlsafe(32)
-    app.secret_key = 'asdf'
+    app.secret_key = 'asdjflsajflkjskfkdaks'
 
     app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=7)
-    app.config['SESSION_USE_SIGNER'] = True
-    app.config['SESSION_COOKIE_SAMESITE'] = None
+    app.config['SESSION_COOKIE_SAMESITE'] = 'Strict'
+    # app.config['SESSION_PERMANENT'] = True
+    app.config['SESSION_FILE_THRESHOLD'] = 30
+    app.config['SESSION_TYPE'] = 'filesystem'
 
     app.config['MYSQL_HOST'] = 'localhost'
     app.config['MYSQL_USER'] = 'root'
     app.config['MYSQL_PASSWORD'] = 'root'
     app.config['MYSQL_DB'] = 'password_manager'
+
     
     db.init_app(app)
     qrcode.init_app(app)
+    sess.init_app(app)
 
     app.register_blueprint(view.bp)
     app.register_blueprint(auth.bp)

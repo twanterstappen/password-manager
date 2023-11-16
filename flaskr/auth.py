@@ -92,10 +92,6 @@ def totpverify():
 
 
 
-
-
-
-# TODO: Add TOTP verification to login
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if 'loggedin' in session:

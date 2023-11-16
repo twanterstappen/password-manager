@@ -5,7 +5,9 @@ import requests
 
 
 bp = Blueprint('view', __name__)
-
+@bp.route('/kakitest', methods=('GET',))
+def kaki():
+    return 'Kakitest'
 
 @bp.route('/', methods=('GET',))
 def home():
