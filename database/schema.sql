@@ -1,5 +1,7 @@
 DROP DATABASE IF EXISTS password_manager;
 CREATE DATABASE IF NOT EXISTS password_manager;
+CREATE USER 'password-manager'@'%' IDENTIFIED BY 'Humorous3-Boss-Residual';
+GRANT SELECT, INSERT, DELETE, UPDATE ON user.* TO 'password-manager'@'%';
 USE password_manager;
 
 
@@ -28,12 +30,3 @@ CREATE TABLE IF NOT EXISTS `password_manager`.`password` (
     REFERENCES `password_manager`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
-
-INSERT INTO `password_manager`.`user` VALUES(
-	NULL,
-    'Twan Terstappen',
-    'twanterstappen@gmail.com',
-    '$2b$12$vlBDUMOJ1Lx3O6JaGhi31uGlaZoygvp6YgWmva/al/wUgW2X4Hu5C', # Welkom123!
-    NULL
-);

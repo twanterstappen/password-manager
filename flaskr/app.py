@@ -64,8 +64,9 @@ def main():
     app.config['SESSION_TYPE'] = 'filesystem'
 
     app.config['MYSQL_HOST'] = 'localhost'
-    app.config['MYSQL_USER'] = 'root'
-    app.config['MYSQL_PASSWORD'] = 'root'
+    app.config['MYSQL_PORT'] = 3306
+    app.config['MYSQL_USER'] = 'password-manager'
+    app.config['MYSQL_PASSWORD'] = 'Humorous3-Boss-Residual'
     app.config['MYSQL_DB'] = 'password_manager'
 
     

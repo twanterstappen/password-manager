@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+
+  passwor_manager:
+    build: ./
+    restart: always
+    links:
+      - db
+    depends_on:
+      - db
+    ports:
+      - 5000:5000
+
+
+  db:
+    build: ./mariadb/
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'password_manager'
+      MYSQL_USER: 'passwor_manager'
+      MYSQL_PASSWORD: 'Humorous3-Boss-Residual'
+      MYSQL_ROOT_PASSWORD: 'Oxidation-Frigidly-Moonscape4'
+      MYSQL_TCP_PORT: 3307
+    ports: 
+    - '3307:3307'
