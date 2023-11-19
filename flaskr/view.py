@@ -5,10 +5,6 @@ import requests
 
 
 bp = Blueprint('view', __name__)
-@bp.route('/kakitest', methods=('GET',))
-def kaki():
-    return 'Kakitest'
-
 @bp.route('/', methods=('GET',))
 def home():
     if 'loggedin' not in session:
@@ -122,18 +118,3 @@ def deletecredentials():
         cursor.close
     
     return redirect(url_for('view.home'))
-
-# Maybe add later
-# @bp.route('/profile', methods=('GET',))
-# def profile():
-#     if 'loggedin' not in session:
-#         return redirect(url_for('auth.login'))
-    
-#     email = session.get('email')
-    
-#     cursor = db.connection.cursor()
-#     cursor.execute("SELECT username, email, password FROM user WHERE email = %s;", (email,))
-#     user_id = cursor.fetchone()
-#     cursor.close
-    
-#     return ''

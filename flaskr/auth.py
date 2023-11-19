@@ -36,7 +36,6 @@ def register():
             
         main_password_hash = bcrypt.hashpw(password.encode('UTF-8'), bcrypt.gensalt())
         
-        # Need to look into this, I think it wont commit. Because nothing shows up in the database
         cursor.execute("INSERT INTO user (username, email, main_password_hash) VALUES (%s, %s, %s);", (username, email, main_password_hash))
         db.connection.commit()
         cursor.close
@@ -81,15 +80,6 @@ def totp():
 
     return render_template('auth/totp.html.j2')
 
-@bp.route('/totp-verify', methods=('POST',))
-def totpverify():
-
-    return redirect(url_for('auth.login'))
-
-
-
-
-
 
 
 @bp.route('/login', methods=('GET', 'POST'))
@@ -129,12 +119,6 @@ def login():
         else:
             flash('Combination of email and password wrong', 'error')
    
-        # query = "select * from password;"
-        # cursor.execute(query,)
-        # entry = cursor.fetchone()
-    
-
-    
     return render_template('auth/login.html.j2')
 
 @bp.route('/logout', methods=('GET',))

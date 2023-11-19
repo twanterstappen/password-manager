@@ -1,7 +1,7 @@
 DROP DATABASE IF EXISTS password_manager;
 CREATE DATABASE IF NOT EXISTS password_manager;
 CREATE USER 'password-manager'@'%' IDENTIFIED BY 'Humorous3-Boss-Residual';
-GRANT SELECT, INSERT, DELETE, UPDATE ON user.* TO 'password-manager'@'%';
+GRANT SELECT, INSERT, DELETE, UPDATE ON `password_manager`.* TO 'password-manager'@'%';A
 USE password_manager;
 
 

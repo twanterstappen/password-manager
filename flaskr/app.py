@@ -7,9 +7,6 @@ from Crypto.Cipher import AES
 from flask_qrcode import QRcode
 from flask_session import Session
 
-# TODO: https://www.youtube.com/watch?v=lvKjQhQ8Fwk&ab_channel=PrettyPrinted
-# Save sessions in a safe way
-
 db = MySQL()
 qrcode = QRcode()
 sess = Session()
@@ -54,8 +51,7 @@ def decryption_password(key, password_hash, nonce, tag):
 def main():
     app = Flask(__name__, instance_relative_config=True)
     import view, auth
-    # app.secret_key = secrets.token_urlsafe(32)
-    app.secret_key = 'asdjflsajflkjskfkdaks'
+    app.secret_key = secrets.token_urlsafe(32)
 
     app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=7)
     app.config['SESSION_COOKIE_SAMESITE'] = 'Strict'
