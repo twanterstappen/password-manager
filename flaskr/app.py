@@ -59,8 +59,8 @@ def main():
     app.config['SESSION_FILE_THRESHOLD'] = 30
     app.config['SESSION_TYPE'] = 'filesystem'
 
-    app.config['MYSQL_HOST'] = 'localhost'
-    app.config['MYSQL_PORT'] = 3306
+    app.config['MYSQL_HOST'] = 'db'
+    app.config['MYSQL_PORT'] = 3307
     app.config['MYSQL_USER'] = 'password-manager'
     app.config['MYSQL_PASSWORD'] = 'Humorous3-Boss-Residual'
     app.config['MYSQL_DB'] = 'password_manager'
@@ -80,4 +80,4 @@ def main():
 if __name__ == '__main__':
     app = main()
     port = int(os.environ.get('PORT', 5000))
-    app.run(debug=True, host='0.0.0.0', port=port)
+    app.run(debug=False, host='0.0.0.0', port=port)
