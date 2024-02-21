@@ -1,4 +1,4 @@
-FROM python:3.11-alpine3.18
+FROM python:3.13.0a4-alpine3.18
 
 RUN apk update && \
     apk add --no-cache python3-dev mariadb-dev build-base
